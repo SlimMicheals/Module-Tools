@@ -1,7 +1,9 @@
 const fs = require("fs");
 
-// read current directory
-const files = fs.readdirSync(".");
+const args = process.argv.slice(2);
+const target = args[0] || ".";
+
+const files = fs.readdirSync(target);
 
 files.forEach(file => {
   console.log(file);
