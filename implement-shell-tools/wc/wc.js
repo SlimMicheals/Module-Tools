@@ -1,6 +1,14 @@
 const fs = require("fs");
 
-const files = process.argv.slice(2);
+const args = process.argv.slice(2);
+
+const showLines = args.includes("-l");
+const showWords = args.includes("-w");
+const showChars = args.includes("-c");
+
+const files = args.filter(
+  (arg) => arg !== "-l" && arg !== "-w" && arg !== "-c"
+);
 
 for (const file of files) {
   const content = fs.readFileSync(file, "utf8");
@@ -9,5 +17,13 @@ for (const file of files) {
   const words = content.trim().split(/\s+/).length;
   const chars = content.length;
 
-  console.log(lines, words, chars, file);
+  if (showLines) {
+    console.log(lines, file);
+  } else if (showWords) {
+    console.log(words, file);
+  } else if (showChars) {
+    console.log(chars, file);
+  } else {
+    console.log(lines, words, chars, file);
+  }
 }
