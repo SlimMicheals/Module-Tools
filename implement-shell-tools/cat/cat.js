@@ -2,16 +2,27 @@ const fs = require("fs");
 
 const args = process.argv.slice(2);
 
-// check if -n is included
 const showLineNumbers = args.includes("-n");
+const numberNonEmptyLines = args.includes("-b");
 
-// filter out the flag, keep only file names
-const files = args.filter(arg => arg !== "-n");
+const files = args.filter(arg => arg !== "-n" && arg !== "-b");
 
 for (const file of files) {
   const content = fs.readFileSync(file, "utf8");
 
-  if (showLineNumbers) {
+  if (numberNonEmptyLines) {
+    const lines = content.split("\n");
+    let lineNumber = 1;
+
+    lines.forEach((line) => {
+      if (line.trim() !== "") {
+        console.log(`${lineNumber} ${line}`);
+        lineNumber++;
+      } else {
+        console.log(line);
+      }
+    });
+  } else if (showLineNumbers) {
     const lines = content.split("\n");
 
     lines.forEach((line, index) => {
