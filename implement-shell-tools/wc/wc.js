@@ -1,18 +1,13 @@
 const fs = require("fs");
 
-const args = process.argv.slice(2);
+const files = process.argv.slice(2);
 
-const file = args[0];
+for (const file of files) {
+  const content = fs.readFileSync(file, "utf8");
 
-const content = fs.readFileSync(file, "utf8");
+  const lines = content.split("\n").length;
+  const words = content.trim().split(/\s+/).length;
+  const chars = content.length;
 
-// count lines
-const lines = content.split("\n").length;
-
-// count words
-const words = content.trim().split(/\s+/).length;
-
-// count characters
-const chars = content.length;
-
-console.log(lines, words, chars, file);
+  console.log(lines, words, chars, file);
+}
